@@ -13,7 +13,8 @@ const config: Config = {
         foreground: "var(--foreground)",
       },
     },
+    darkMode: "media", // class
+    plugins: [require("@tailwindcss/forms")],
   },
-  plugins: [],
 };
 export default config;
