@@ -1,14 +1,15 @@
 import React from "react";
 import { useFormState } from "react-dom";
 
-import FormButton from "@/components/form-btn";
-import FormInput from "@/components/form-input";
+import Button from "@/components/Button";
+import Input from "@/components/Input";
 import SocialLogin from "@/components/social-login";
+import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
 
-import { handleForm } from "./actions";
+import { login } from "./actions";
 
 const Login = () => {
-  const [state, action] = useFormState(handleForm, null);
+  const [state, dispatch] = useFormState(login, null);
 
   return (
     <div className="flex flex-col gap-10 py-8 px-6">
@@ -16,22 +17,23 @@ const Login = () => {
         <h1 className="text-2xl">안녕하세요!</h1>
         <h2 className="text-xl">Log in with email and password.</h2>
       </div>
-      <form action={action} className="flex flex-col gap-3">
-        <FormInput
+      <form action={dispatch} className="flex flex-col gap-3">
+        <Input
           name="email"
           type="email"
           placeholder="Email"
           required
-          errors={[]}
+          errors={state?.fieldErrors.email}
         />
-        <FormInput
+        <Input
           name="password"
           type="password"
           placeholder="Password"
           required
-          errors={state?.errors || []}
+          minLength={PASSWORD_MIN_LENGTH}
+          errors={state?.fieldErrors.password}
         />
-        <FormButton loading={false} text="Log in" />
+        <Button text="Log in" />
       </form>
       <SocialLogin />
     </div>
