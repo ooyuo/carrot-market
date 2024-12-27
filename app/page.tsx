@@ -1,3 +1,5 @@
+import "@/lib/db";
+
 import { NextPage } from "next";
 import Link from "next/link";
 

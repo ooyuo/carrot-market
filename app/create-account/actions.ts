@@ -2,15 +2,7 @@
 
 import { z } from "zod";
 
-import {
-  PASSWORD_MIN_LENGTH,
-  PASSWORD_REGEX,
-  PASSWORD_REGEX_ERROR,
-} from "@/lib/constants";
-
-const passwordRegex = new RegExp(
-  "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])"
-);
+import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
 
 const formSchema = z
   .object({
@@ -22,13 +14,11 @@ const formSchema = z
       .min(3, "Username must be at least 3 characters")
       .trim()
       .toLowerCase()
-      .transform((username) => `🙀 ${username}`)
+      // .transform((username) => `🙀 ${username}`)
       .refine((username) => username.includes("potato"), "No potato"),
     email: z.string().email().toLowerCase(),
-    password: z
-      .string()
-      .min(PASSWORD_MIN_LENGTH)
-      .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
+    password: z.string().min(PASSWORD_MIN_LENGTH),
+    // .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
     confirm_password: z.string().min(PASSWORD_MIN_LENGTH),
   })
   .superRefine(({ password, confirm_password }, ctx) => {
